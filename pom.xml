@@ -11,6 +11,7 @@
   	<module>app-repository</module>
   	<module>app-service</module>
   	<module>app-web</module>
+  	<module>ws-soap-server</module>
   </modules>
   
   <properties>
