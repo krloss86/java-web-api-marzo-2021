@@ -1,5 +1,8 @@
 package ar.com.educationit.wssoap.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ar.com.educationit.domain.Producto;
 import ar.com.educationit.domain.TipoProducto;
 import ar.com.educationit.service.ProductoService;
@@ -30,4 +33,18 @@ public class ProductoWsSoapServiceImpl implements ProductoWsSoapService {
 		}
 	}
 
+	@Override
+	public List<Producto> obtenerProductos() throws WSSoapException {
+		
+		ProductoService ps = new ProductoServiceImpl();
+		
+		List<Producto> productos = new ArrayList<Producto>();
+		try {
+			productos = ps.obtenerTodos();
+		}catch (Exception e) {
+			throw new WSSoapException(e.getMessage());
+		}
+		
+		return productos;
+	}
 }

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ar.com.educationit.domain.Producto;
 import ar.com.educationit.domain.TipoProducto;
+import ar.com.educationit.exceptions.ServiceException;
 import ar.com.educationit.service.ProductoService;
 import ar.com.educationit.service.impl.ProductoServiceImpl;
 @WebServlet("/NuevoProductoServlet")
@@ -32,9 +33,12 @@ public class NuevoProductoServlet extends HttpServlet {
 		
 		//service 
 		ProductoService	ps = new ProductoServiceImpl();
-		producto = ps.grabarProducto(producto);
-				
+		try {
+			producto = ps.grabarProducto(producto);
+			resp.getWriter().write(producto.toString());
+		} catch (ServiceException e) {
+			resp.getWriter().write(e.getMessage());
+		}				
 		//escribir 
-		resp.getWriter().write(producto.toString());
 	}
 }

@@ -12,6 +12,8 @@
   	<module>app-service</module>
   	<module>app-web</module>
   	<module>ws-soap-server</module>
+  	<module>ws-soap-client</module>
+  	<module>ws-soap-client-v1</module>
   </modules>
   
   <properties>
