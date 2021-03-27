@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ar.com.educationit</groupId>
+		<artifactId>app-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>ws-rest-server</artifactId>
+	<packaging>war</packaging>
+	
+	<dependencies>
+		<!-- jax-rs -->
+    <dependency>
+		<groupId>javax.ws.rs</groupId>
+		<artifactId>javax.ws.rs-api</artifactId>
+		<version>2.1.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.glassfish.jersey.containers</groupId>
+		<artifactId>jersey-container-servlet</artifactId>
+		<version>2.26</version>
+	</dependency>
+ 	<dependency>
+		<groupId>org.glassfish.jersey.core</groupId>
+		<artifactId>jersey-server</artifactId>
+		<version>2.26</version>
+	</dependency>
+	<!-- CDI -->
+	<dependency>
+		<groupId>org.glassfish.jersey.inject</groupId>
+		<artifactId>jersey-hk2</artifactId>
+		<version>2.26</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.glassfish.jersey.media</groupId>
+	    <artifactId>jersey-media-json-jackson</artifactId>
+	    <version>2.22.2</version>
+	</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+<!-- 		<scope>provided</scope> -->
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+<!-- 		<scope>provided</scope> -->
+		</dependency>
+		
+		<dependency>
+			<groupId>ar.com.educationit</groupId>
+			<artifactId>app-service</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+  <build>
+    <finalName>ws-rest-server</finalName>
+  </build>
+</project>
