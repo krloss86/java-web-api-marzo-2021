@@ -1,4 +1,4 @@
-package ar.com.educationit.ws.rest.configuration;
+package ar.com.educationit.rest.configuration;
 
 import java.io.IOException;
 

@@ -265,4 +265,11 @@ public class Producto  implements java.io.Serializable {
             _javaType, _xmlType, typeDesc);
     }
 
+	@Override
+	public String toString() {
+		return "Producto [codigo=" + codigo + ", id=" + id + ", precio=" + precio + ", tipoProducto=" + tipoProducto
+				+ ", titulo=" + titulo + "]";
+	}
+
+    //alt+shit+s
 }

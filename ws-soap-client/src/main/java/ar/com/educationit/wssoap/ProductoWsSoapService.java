@@ -9,4 +9,5 @@ package ar.com.educationit.wssoap;
 
 public interface ProductoWsSoapService extends java.rmi.Remote {
     public ar.com.educationit.wssoap.Producto crearProducto(ar.com.educationit.wssoap.CreateProductoDTO arg0) throws java.rmi.RemoteException, ar.com.educationit.wssoap.WSSoapException;
+    public ar.com.educationit.wssoap.Producto[] obtenerProductos() throws java.rmi.RemoteException, ar.com.educationit.wssoap.WSSoapException;
 }

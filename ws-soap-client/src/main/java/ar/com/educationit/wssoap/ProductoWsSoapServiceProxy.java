@@ -50,5 +50,11 @@ public class ProductoWsSoapServiceProxy implements ar.com.educationit.wssoap.Pro
     return productoWsSoapService.crearProducto(arg0);
   }
   
+  public ar.com.educationit.wssoap.Producto[] obtenerProductos() throws java.rmi.RemoteException, ar.com.educationit.wssoap.WSSoapException{
+    if (productoWsSoapService == null)
+      _initProductoWsSoapServiceProxy();
+    return productoWsSoapService.obtenerProductos();
+  }
+  
   
 }

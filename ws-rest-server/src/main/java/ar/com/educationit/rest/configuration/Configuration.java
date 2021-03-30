@@ -1,4 +1,4 @@
-package ar.com.educationit.ws.rest.configuration;
+package ar.com.educationit.rest.configuration;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
