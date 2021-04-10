@@ -44,4 +44,33 @@ public class ProductoServiceImpl implements ProductoService{
 			throw new ServiceException("No se ha podido obtener la lista de productos", e);
 		}
 	}
+	
+	@Override
+	public Producto obtenerPorCodigo(String codigo) throws ServiceException {
+		try {
+			return this.pr.getByCodigo(codigo);
+		} catch (GenericException e) {
+			//log
+			throw new ServiceException("No se ha podido obtener producto codigo:" + codigo, e);
+		}
+	}
+	
+	@Override
+	public Producto actualizarProducto(Producto producto) throws ServiceException {
+		try {
+			return this.pr.update(producto);
+		} catch (GenericException e) {
+			//log
+			throw new ServiceException("No se ha podido actualizar el producto codigo:" + producto.getCodigo(), e);
+		}
+	}
+	
+	@Override
+	public Producto eliminarProducto(String codigo) throws ServiceException {
+		try {
+			return this.pr.delete(codigo);
+		} catch (GenericException e) {
+			throw new ServiceException("No se ha podido eliminar el producto codigo:" + codigo, e);
+		}
+	}
 }

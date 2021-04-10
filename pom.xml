@@ -15,7 +15,7 @@
   	<module>ws-soap-server</module>
   	<module>ws-soap-client</module>
     <module>ws-rest-server</module>
-    <module>ws-rest-server-v1</module>
+    <module>ws-producto-rest-client</module>
   </modules>
   
   <properties>

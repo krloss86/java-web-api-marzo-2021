@@ -10,4 +10,10 @@ public interface ProductoService {
 	public Producto grabarProducto(Producto producto) throws ServiceException;
 
 	public List<Producto> obtenerTodos() throws ServiceException;
+
+	public Producto obtenerPorCodigo(String codigo) throws ServiceException;
+
+	public Producto actualizarProducto(Producto producto) throws ServiceException;
+
+	public Producto eliminarProducto(String codigo) throws ServiceException;
 }

@@ -44,20 +44,19 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 		}
 			
 		
-		//session.beginTransaction();
+		session.beginTransaction();
 			
 		//logica
 		
 		try {
 			session.saveOrUpdate(producto);
-		}catch (org.hibernate.exception.ConstraintViolationException e) {			
+			session.getTransaction().commit();
+		}catch (org.hibernate.exception.ConstraintViolationException e) {
+			session.getTransaction().rollback();
 			throw new DuplicatedException("Prducto duplicado: " +e.getMessage(), e);
+		}finally {
+			session.close();			
 		}
-		//
-		
-		session.getTransaction().commit();
-				
-		session.close();
 		
 		return producto;
 	}
@@ -85,6 +84,8 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 		}catch (Exception e) {
 			session.getTransaction().rollback();
 			throw new GenericException(e.getMessage(), e);
+		} finally {
+			session.close();
 		}
 		
 		return producto;
@@ -108,9 +109,9 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 				
 			productos = query.getResultList();
 			
-			//session.getTransaction().commit();
-			
+			session.getTransaction().commit();			
 		}catch (Exception e) {
+			session.getTransaction().rollback();
 			throw new GenericException(e.getMessage(), e);			
 		} finally {
 			session.close();
@@ -129,7 +130,7 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 		try {
 			session.getTransaction().begin();
 			
-			String hql = "Select producto from " + Producto.class.getName()+ " producto where producuto.codigo=:codigo ";
+			String hql = "Select producto from " + Producto.class.getName()+ " producto where producto.codigo=:codigo ";
 			
 			Query<Producto> query = session.createQuery(hql);
 			
@@ -141,9 +142,12 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 				producto = queryProducto.get();
 			}
 			
-			//commi!
+			session.getTransaction().commit();
 		}catch (Exception e) {
+			session.getTransaction().rollback();
 			throw new GenericException(e.getMessage(), e);
+		}finally {
+			session.close();
 		}
 		
 		return producto;
@@ -159,7 +163,7 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 		try {
 			session.getTransaction().begin();
 			
-			String hql = "Select producto from " + Producto.class.getName()+ " producto where producuto.id=:id ";
+			String hql = "Select producto from " + Producto.class.getName()+ " producto where producto.id=:id ";
 			
 			Query<Producto> query = session.createQuery(hql);
 			
@@ -171,9 +175,13 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 				producto = queryProducto.get();
 			}
 			
-			//commi!
+			session.getTransaction().commit();
+			//commit!
 		}catch (Exception e) {
+			session.getTransaction().rollback();
 			throw new GenericException(e.getMessage(), e);
+		}finally {
+			session.close();
 		}
 		
 		return producto;
@@ -198,9 +206,9 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 			
 			productos = query.getResultList();
 			
-			//commit!
-		}catch (Exception e) {
-			//rollback
+			session.getTransaction().commit();
+		}catch (Exception e) {			
+			session.getTransaction().rollback();
 			throw new GenericException(e.getMessage(), e);
 		}finally {
 			session.close();
@@ -212,13 +220,13 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 	@Override
 	public Producto update(Producto producto) throws GenericException {
 
+		Producto productoToUpdate = getByCodigo(producto.getCodigo());
+		
 		Session session = factory.getCurrentSession();
 		
 		try {
 			
 			session.getTransaction().begin();
-			
-			Producto productoToUpdate = getByCodigo(producto.getCodigo());
 			
 			if(productoToUpdate != null) {
 				productoToUpdate.setPrecio(producto.getPrecio());
@@ -226,9 +234,12 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 				productoToUpdate.setTitulo(producto.getTitulo());
 				
 				session.saveOrUpdate(productoToUpdate);
+				producto = productoToUpdate;
 			}
 			
+			session.getTransaction().commit();
 		}catch (Exception e) {
+			session.getTransaction().rollback();
 			throw new GenericException(e.getMessage(), e);
 		}finally {
 			session.close();
