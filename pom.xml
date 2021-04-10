@@ -16,6 +16,7 @@
   	<module>ws-soap-client</module>
     <module>ws-rest-server</module>
     <module>ws-producto-rest-client</module>
+    <module>app-jsf-webapp</module>
   </modules>
   
   <properties>

@@ -29,7 +29,8 @@
 
 		<mapping class="ar.com.educationit.domain.Producto" />
 		<mapping class="ar.com.educationit.domain.TipoProducto" />
-
+		<mapping class="ar.com.educationit.domain.User" />
+		<mapping class="ar.com.educationit.domain.Role" />
 	</session-factory>
 
 </hibernate-configuration>

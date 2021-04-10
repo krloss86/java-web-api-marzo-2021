@@ -1,0 +1,46 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>Clase5 - JSF</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"/>
+	</h:head>
+
+<h:body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-11 col-md-9 col-lg-7 col-xl-4"><!-- en todas ocupa 12 -->
+				<h2>Login</h2>
+			</div>	
+		</div>
+		
+		<div class="row">
+			<div class="col-12">
+			 	<!-- erorres -->
+			 	<h:outputText styleClass="alert alert-danger" 
+			 		value="#{loginBean.error}"
+			 		rendered="#{loginBean.error !=null}">
+			 	</h:outputText>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 mt-5">
+				<h:form>				 	
+				 	
+				 	<div class="form-group">
+					    <h:outputLabel value="Usuario:"/>
+					    <h:inputText styleClass="form-control" value="#{loginBean.username}"/>
+				  	</div>
+				  	<div class="form-group">
+					    <h:outputLabel value="Password:"/>
+					    <h:inputSecret styleClass="form-control" value="#{loginBean.password}"/>
+				  	</div>
+				  	
+				  	<h:commandButton styleClass="btn btn-primary" action="${loginBean.login}" value="Login"/>
+				</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

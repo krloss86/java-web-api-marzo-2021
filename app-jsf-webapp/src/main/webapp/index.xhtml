@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>Clase5 - JSF</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"/>
+	</h:head>
+
+<h:body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-11 col-md-9 col-lg-7 col-xl-4"><!-- en todas ocupa 12 -->
+				<h2>Clase5</h2>
+			</div>	
+		</div>
+		
+		<div class="row">
+			<div class="col-12">
+				<h:outputLabel>#{saludoManagedBean.saludo()}</h:outputLabel> 
+				
+				<h:form>
+				 	<div class="form-group">
+						<h:commandButton action="#{loginBean.login}" value="Ir a Login"></h:commandButton>
+						<h:commandButton action="#{loginBean.irALogin}" value="Login desde un Método"></h:commandButton>
+						<h:link outcome="login-success">Ir A Login desde un Link</h:link>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

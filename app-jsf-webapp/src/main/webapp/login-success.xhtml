@@ -1,0 +1,36 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>Clase5 - JSF- Login Success</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous"/>
+	</h:head>
+	
+	<h:body>
+	
+		<div class="container">
+		
+			<div class="col-12">
+				<h:form rendered="#{usuarioBean.logueado()}">
+					<h:outputLabel value="#{KEY_USUARIO.username}"/>
+					
+					<h:dataTable value="#{KEY_USUARIO.roles}" var="dato">
+						<h:column>
+							<f:facet name="header">ID</f:facet>
+							#{dato.id}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Rol</f:facet>
+							#{dato.role}
+						</h:column>
+					</h:dataTable>
+					
+					<h:commandButton action="login" value="Volver" styleClass="btn btn-info"/>
+					<h:commandButton action="#{usuarioBean.logout}" value="Salir" styleClass="btn btn-primary"/>
+				</h:form>
+			</div>
+		</div>
+	</h:body>
+	
+</html>
