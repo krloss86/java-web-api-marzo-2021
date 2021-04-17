@@ -3,6 +3,7 @@ package ar.com.educationit.repository;
 import java.util.List;
 
 import ar.com.educationit.domain.Producto;
+import ar.com.educationit.domain.TipoProducto;
 
 public interface ProductoRepository {
 
@@ -20,4 +21,6 @@ public interface ProductoRepository {
 	public Producto delete (String codigo) throws GenericException;
 	
 	public List<Producto> search(String titulo) throws GenericException;
+
+	public List<TipoProducto> findTipoProductos() throws GenericException;
 }

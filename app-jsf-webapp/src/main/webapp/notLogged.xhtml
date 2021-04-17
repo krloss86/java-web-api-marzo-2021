@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+		<h:outputStylesheet library="webjars" name="/bootstrap/4.3.1/css/bootstrap.min-jsf.css" />
+	</h:head>
+	
+	<h:body>
+		<div class="container">
+			<div class="row mt-5">
+				<div class="col-6 offset-3">
+					<div class="alert alert-danger" role="alert">
+						Su sesión ha finalizado, por favor vuelva a iniciar sesión.
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6 offset-3">
+					<h:form>
+					  <h:link outcome="login.index?faces-redirect=true" value = "Volver" styleClass="btn btn-info" />
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</h:body>
+</html>

@@ -3,6 +3,7 @@ package ar.com.educationit.service.impl;
 import java.util.List;
 
 import ar.com.educationit.domain.Producto;
+import ar.com.educationit.domain.TipoProducto;
 import ar.com.educationit.exceptions.ServiceException;
 import ar.com.educationit.repository.DuplicatedException;
 import ar.com.educationit.repository.GenericException;
@@ -16,10 +17,12 @@ import ar.com.educationit.service.ProductoService;
 public class ProductoServiceImpl implements ProductoService{
 
 	private ProductoRepository pr;
+	//private TipoProductoRepository tpr;
 	
 	public ProductoServiceImpl() {
 		// IOC, DI
 		this.pr = new ProductoRepositoryHibImpl();
+		//this.tpr = new TipoProductoRepository();
 	}
 
 	@Override
@@ -71,6 +74,15 @@ public class ProductoServiceImpl implements ProductoService{
 			return this.pr.delete(codigo);
 		} catch (GenericException e) {
 			throw new ServiceException("No se ha podido eliminar el producto codigo:" + codigo, e);
+		}
+	}
+	
+	@Override
+	public List<TipoProducto> findTipoProductos() throws ServiceException {
+		try {
+			return this.pr.findTipoProductos();
+		} catch (GenericException e) {
+			throw new ServiceException("No se ha podido obtener la lista de tipo de productos", e);
 		}
 	}
 }

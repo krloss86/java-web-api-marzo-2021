@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>LOGIN-SUCCESS.XHTML</title>
+		<h:outputScript library="javax.faces" name="jsf.js" target="body" />
+		<h:outputStylesheet library="webjars" name="/bootstrap/4.3.1/css/bootstrap.min-jsf.css" />
+	</h:head>
+	
+	<h:body>
+	
+		<div class="container">
+			<div class="col-12">
+				<h1>Listado de productos</h1>				
+				<h:form>
+					<h:dataTable
+						id="productoTable"
+						styleClass="table"
+						value="#{productoBean.findProductos()}"
+						var="producto">
+					
+						<h:column>
+							<f:facet name="header">Id</f:facet>
+							#{producto.id}
+						</h:column>			
+						<h:column>
+							<f:facet name="header">Código</f:facet>
+							#{producto.codigo}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Título</f:facet>
+							#{producto.titulo}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Precio</f:facet>
+							<h:outputText value="#{producto.precio}">
+								<f:convertNumber pattern="$ ##,###.00"/>
+							</h:outputText>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Tipo</f:facet>
+							#{producto.tipoProducto.descripcion}
+						</h:column>
+						<h:column>
+							<f:facet name="Editar"/>
+							<h:commandButton
+								action="#{productoBean.editarProducto(producto.codigo)}"
+								value="Editar"
+								class="btn btn-success">
+							</h:commandButton>			
+							<h:commandButton
+								action="#{productoBean.eliminarProducto(producto.codigo)}"
+								value="Eliminar"
+								class="btn btn-danger">
+							</h:commandButton>	
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</div>
+			<div class="col-12 text-center">
+				<h:form>
+					<h:commandButton
+						action="login-success.xhtml?faces-redirect=true"
+						value="Volver"
+						class="btn btn-secondary ml-2">
+					</h:commandButton>
+					<h:commandButton
+						action="nuevo-producto.xhtml?faces-redirect=true"
+						value="Nuevo"
+						class="btn btn-primary">
+					</h:commandButton>
+				</h:form>
+			</div>
+		</div>
+	</h:body>
+	
+</html>

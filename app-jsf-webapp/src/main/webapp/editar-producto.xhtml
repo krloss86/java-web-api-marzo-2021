@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>LOGIN-SUCCESS.XHTML</title>
+		<h:outputScript library="javax.faces" name="jsf.js" target="body" />
+		<h:outputStylesheet library="webjars" name="/bootstrap/4.3.1/css/bootstrap.min-jsf.css" />
+	</h:head>
+	
+	<h:body>
+		
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h:outputText value="#{productoBean.mensajeError}"
+						rendered="#{productoBean.mensajeError != null}"
+						styleClass="alert alert-danger"/>
+				</div> 
+			</div>
+		
+			<div class="row">
+				<div class="col-6 offet-3">
+					<h1>Editar Producto id: #{productoBean.producto.id}</h1>
+					<h:form>
+					<div class="form-group">
+						<h:outputLabel class="control-label col-sm-4">Codigo</h:outputLabel>
+						<h:inputText id="codigoHidden"
+							value="#{productoBean.producto.codigo}"
+							class="form-control"
+							readonly="#{facesContext.renderResponse}">
+						</h:inputText>
+					</div>
+					<div class="form-group">
+						<h:outputLabel for="descripcion" class="control-label col-sm-4">Título</h:outputLabel>
+						<h:inputText id="descripcion"
+							value="#{productoBean.producto.titulo}"
+							class="form-control"
+							required="true"
+							label="Descripcion">
+							<f:validateRequired for="descripcion"/>
+						</h:inputText>
+						<h:message for="descripcion" style="color:red;"/>
+					</div>
+					<div class="form-group">
+						<h:outputLabel for="precio" class="control-label col-sm-4">Precio</h:outputLabel>
+						<h:inputText 
+							value="#{productoBean.producto.precio}" 
+							id="precio"
+							class="form-control"
+							required="true"
+							label="Precio">
+							 <f:convertNumber integerOnly="false" type="number" for="precio"/>
+						</h:inputText>
+						<h:message for="precio" style="color:red;"/>
+					</div>
+					<div class="form-group">
+						<h:selectOneMenu 
+							id="tipoProducto" 
+							value="#{productoBean.tipoProducto.id}"
+							class="form-control"  
+							style="width:100%">
+							<f:selectItems var="tipoProducto"
+								value="#{productoBean.getTipoProductos()}"
+								itemLabel="#{tipoProducto.descripcion}" 
+			                	itemValue="#{tipoProducto.id}">
+			                </f:selectItems>
+						</h:selectOneMenu>
+					</div>
+					<h:commandButton value="Grabar" action="#{productoBean.updateProducto()}" class="btn btn-success"/>
+					<h:link outcome="listado-productos.xhtml?faces-redirect=true" value="Volver" styleClass="btn btn-primary ml-2"/>
+				</h:form>			
+				</div>		
+			</div>
+		</div>
+	</h:body>
+</html>

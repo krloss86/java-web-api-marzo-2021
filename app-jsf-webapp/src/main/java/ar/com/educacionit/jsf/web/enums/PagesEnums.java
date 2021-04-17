@@ -4,7 +4,10 @@ public enum PagesEnums {
 
 	LOGIN_SUCCESS("login-success"),
 	LOGIN("login"),
-	LOGIN_ERROR("login-error");
+	LOGIN_ERROR("login-error"), 
+	EDITAR_PRODUCTOS("editar-producto"), 
+	LISTADO_PRODUCTOS("listado-productos");
+	
 	
 	private String page;
 	

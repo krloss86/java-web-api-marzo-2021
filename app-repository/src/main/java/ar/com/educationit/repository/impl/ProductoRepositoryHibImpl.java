@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import ar.com.educationit.domain.Producto;
+import ar.com.educationit.domain.TipoProducto;
 import ar.com.educationit.hibernate.HibernateUtils;
 import ar.com.educationit.repository.DuplicatedException;
 import ar.com.educationit.repository.GenericException;
@@ -248,4 +249,31 @@ public class ProductoRepositoryHibImpl implements ProductoRepository{
 		return producto;
 	}
 	
+	@Override
+	public List<TipoProducto> findTipoProductos() throws GenericException {
+		Session session = this.factory.getCurrentSession();
+		
+		List<TipoProducto> tipoProductos = new ArrayList<>();
+		
+		try {
+			
+			session.getTransaction().begin();
+			
+			//HQL
+			String hql = "Select p from " + TipoProducto.class.getName() + " p" ;
+			
+			Query<TipoProducto> query = session.createQuery(hql);
+				
+			tipoProductos = query.getResultList();
+			
+			session.getTransaction().commit();			
+		}catch (Exception e) {
+			session.getTransaction().rollback();
+			throw new GenericException(e.getMessage(), e);			
+		} finally {
+			session.close();
+		}
+		
+		return tipoProductos;
+	}
 }
