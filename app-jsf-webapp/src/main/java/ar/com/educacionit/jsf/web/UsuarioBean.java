@@ -1,45 +1,53 @@
 package ar.com.educacionit.jsf.web;
 
-import java.util.Map;
+import java.io.Serializable;
 import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 
 import ar.com.educacionit.jsf.web.enums.PagesEnums;
-import ar.com.educacionit.jsf.web.enums.UsuarioEnum;
 import ar.com.educationit.domain.User;
 
-@ManagedBean
-@RequestScoped
-public class UsuarioBean {
+@Named
+@SessionScoped
+public class UsuarioBean implements Serializable{
 
+	private static final long serialVersionUID = -5542155117157234481L;
+	
+	private User usuario;
+	private String[] roles;
+	
 	public boolean logueado() {
-		FacesContext fc = FacesContext.getCurrentInstance();
-		boolean logueado = false;
-		if(fc != null) {
-			Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-			logueado = sessionMap.containsKey(UsuarioEnum.KEY_USUARIO.name());
-		}
-		return logueado;
+		return this.usuario != null;
 	}
 	
 	public String logout() {
-		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-		sessionMap.remove(UsuarioEnum.KEY_USUARIO.name());
-		
+		setUsuario(null);
+		setRoles(new String[] {});
 		return PagesEnums.LOGIN.getPage();
 	}
 	
 	public String[] getUserRoles() {
-		
-		User user = (User)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(UsuarioEnum.KEY_USUARIO.name());
-		
-		return user.getRoles()
+		return this.usuario.getRoles()
 				.stream()
 				.map(role -> role.getRole())
 				.collect(Collectors.toSet())
 				.toArray(new String[]{});
 	}
+
+	public User getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(User usuario) {
+		this.usuario = usuario;
+	}
+	public String[] getRoles() {
+		return roles;
+	}
+	public void setRoles(String[] roles) {
+		this.roles = roles;
+	}
+	
 }

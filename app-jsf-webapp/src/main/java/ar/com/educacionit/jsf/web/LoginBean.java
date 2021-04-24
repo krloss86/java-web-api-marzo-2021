@@ -1,19 +1,18 @@
 package ar.com.educacionit.jsf.web;
 
-import java.util.Map;
+import java.util.stream.Collectors;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import ar.com.educacionit.jsf.web.enums.PagesEnums;
-import ar.com.educacionit.jsf.web.enums.UsuarioEnum;
 import ar.com.educationit.domain.User;
 import ar.com.educationit.exceptions.ServiceException;
 import ar.com.educationit.service.UserService;
 import ar.com.educationit.service.impl.UserServiceImpl;
 
-@ManagedBean
+@Named
 @RequestScoped
 public class LoginBean {
 
@@ -22,6 +21,9 @@ public class LoginBean {
 	private String error;
 		
 	private UserService userService = new UserServiceImpl();
+	
+	@Inject
+	private UsuarioBean usuarioBean;
 	
 	public String login() {
 		
@@ -32,9 +34,15 @@ public class LoginBean {
 			User user = this.userService.getUserByUsername(this.username);
 			
 			if(user != null && user.getPassword().equals(this.username)) {
-				//session
-				Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
-				sessionMap.put(UsuarioEnum.KEY_USUARIO.name(), user);
+				
+				this.usuarioBean.setUsuario(user);
+				
+				String[] roles = this.userService.findRoles()
+						.stream()
+						.map(r -> r.getRole())
+						.collect(Collectors.toList())
+						.toArray(new String[] {});
+				this.usuarioBean.setRoles(roles);
 				
 				target = PagesEnums.LOGIN_SUCCESS;
 			}else {

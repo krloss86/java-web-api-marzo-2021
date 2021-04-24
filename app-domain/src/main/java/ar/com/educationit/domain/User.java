@@ -1,5 +1,6 @@
 package ar.com.educationit.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,7 +15,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="user")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 3331393383588340029L;
 
 	@Id
 	private Long id;
