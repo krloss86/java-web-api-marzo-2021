@@ -48,4 +48,10 @@
         <session-timeout>5</session-timeout>
     </session-config>   
    
+    <!-- theme de primefaces que usaremos
+    <context-param>
+    	<param-name>primefaces.THEME</param-name>
+    	<param-value>glass-x</param-value>
+    </context-param>
+    -->
 </web-app>

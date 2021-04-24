@@ -3,7 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+      >
 
 	<h:head>
 		<title>LOGIN-SUCCESS.XHTML</title>
@@ -12,40 +15,77 @@
 	</h:head>
 	
 	<h:body>
-	
+		<p:growl id="msgs" showDetail="true"/>
 		<div class="container">
 			<div class="col-12">
 				<h1>Listado de productos</h1>				
 				<h:form>
-					<h:dataTable
+					<p:dataTable
 						id="productoTable"
 						styleClass="table"
-						value="#{productoBean.findProductos()}"
-						var="producto">
+						value="#{productoBean.productos}"
+						var="producto"
+						rowKey="#{producto.id}"
+						selectionMode="single"
+						selection="#{productoBean.producto}"
+						editable="true"
+						>
+						
+						<p:ajax event="rowEdit" listener="#{productoBean.onRowEdit}" update="msgs"/>
+				        <p:ajax event="rowEditCancel" listener="#{productoBean.onRowCandel}" update="msgs"/>
+				        <p:ajax event="rowSelect" listener="#{productoBean.onRowSelect}"/>
 					
-						<h:column>
+						<p:column>
 							<f:facet name="header">Id</f:facet>
 							#{producto.id}
-						</h:column>			
-						<h:column>
+						</p:column>			
+						<p:column>
 							<f:facet name="header">Código</f:facet>
 							#{producto.codigo}
-						</h:column>
-						<h:column>
-							<f:facet name="header">Título</f:facet>
-							#{producto.titulo}
-						</h:column>
-						<h:column>
-							<f:facet name="header">Precio</f:facet>
-							<h:outputText value="#{producto.precio}">
-								<f:convertNumber pattern="$ ##,###.00"/>
-							</h:outputText>
-						</h:column>
-						<h:column>
-							<f:facet name="header">Tipo</f:facet>
-							#{producto.tipoProducto.descripcion}
-						</h:column>
-						<h:column>
+						</p:column>
+						<p:column headerText="Título">
+							<p:cellEditor>
+			                    <f:facet name="output">
+			                        <h:outputText value="#{producto.titulo}"/>
+			                    </f:facet>
+			                    <f:facet name="input">
+			                        <p:inputText value="#{producto.titulo}" style="width:100%"/>
+			                    </f:facet>
+			                </p:cellEditor>							
+						</p:column>
+						
+						<p:column headerText="Precio">
+							<p:cellEditor>
+			                    <f:facet name="output">
+			                        <h:outputText value="#{producto.precio}"/>			                        
+			                    </f:facet>
+			                    <f:facet name="input">
+			                        <p:inputText value="#{producto.precio}" style="width:100%"/>
+			                    </f:facet>
+			                </p:cellEditor>														
+						</p:column>
+						
+						<p:column headerText="Tipo Producto">
+						
+							<p:cellEditor>
+			                    <f:facet name="output">
+			                        <h:outputText value="#{producto.tipoProducto.descripcion}"/>			                        
+			                    </f:facet>
+			                    <f:facet name="input">
+			                        <p:selectOneMenu id="tipoProducto"
+			                        	value="#{productoBean.tipoProducto.id}">			                        
+			                        	<f:selectItems var="tipoProducto"
+							                	value="#{tipoProductoBean.tipoProductos}" 
+							                	itemLabel="#{tipoProducto.descripcion}" 
+							                	itemValue="#{tipoProducto.id}">
+							               </f:selectItems>
+			                        </p:selectOneMenu>
+			                    </f:facet>
+			                </p:cellEditor>	
+						</p:column>
+						
+						<!-- 
+						<p:column>
 							<f:facet name="Editar"/>
 							<h:commandButton
 								action="#{productoBean.editarProducto(producto.codigo)}"
@@ -57,8 +97,18 @@
 								value="Eliminar"
 								class="btn btn-danger">
 							</h:commandButton>	
-						</h:column>
-					</h:dataTable>
+						</p:column>
+						-->
+						<p:column style="width:35px">
+				            <p:rowEditor />
+			        	</p:column>
+			        	<f:facet name="footer">
+				        	Hay en total #{fn:length(productoBean.productos)} productos.
+				        </f:facet>
+					</p:dataTable>
+		        	<p:contextMenu for="productoTable">
+				        <p:menuitem value="Eliminar" update="productoTable msgs" icon="pi pi-times" action="#{productoBean.eliminarProducto}"/>
+				    </p:contextMenu>
 				</h:form>
 			</div>
 			<div class="col-12 text-center">

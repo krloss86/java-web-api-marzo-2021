@@ -2,10 +2,15 @@ package ar.com.educacionit.jsf.web;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+
+import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 import ar.com.educacionit.jsf.web.enums.PagesEnums;
 import ar.com.educationit.domain.Producto;
@@ -25,6 +30,13 @@ public class ProductoBean {
 	private String mensajeError;
 	
 	private TipoProducto tipoProducto = new TipoProducto();			
+	
+	private List<Producto> productos; 
+	
+	@PostConstruct
+	private void loadProductos() {
+		this.productos = this.findProductos();
+	}
 	
 	public List<Producto> findProductos() {
 		
@@ -116,6 +128,45 @@ public class ProductoBean {
 		return target.getPage();
 	}
 
+	public void onRowEdit(RowEditEvent<Producto> event) {
+		FacesMessage msg;
+		Producto productoSeleccionado = event.getObject();
+		try {
+			if(!productoSeleccionado.getTipoProducto().getId().equals(this.tipoProducto.getId())) {
+				productoSeleccionado.getTipoProducto().setId(this.tipoProducto.getId());
+			}
+			this.ps.actualizarProducto(productoSeleccionado);
+			msg = new FacesMessage("Producto editado ", productoSeleccionado.getId().toString());
+			this.productos = this.findProductos();
+		} catch (ServiceException e) {
+			msg = new FacesMessage(e.getMessage(), productoSeleccionado.getId().toString());
+		}
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
+	public void onRowCandel(RowEditEvent<Producto> event) {
+		Producto productoSeleccionado = event.getObject();
+        FacesMessage msg = new FacesMessage("Edit Cancelled", productoSeleccionado.getId().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
+	public void eliminarProducto() {
+		FacesMessage msg;
+		try {
+			this.ps.eliminarProducto(producto.getCodigo());
+			msg = new FacesMessage("Producto eliminado ", producto.getId().toString());
+			this.productos.remove(producto);
+			this.producto = null;
+		} catch (Exception e) {
+			msg = new FacesMessage("Error eliminando producto", e.getMessage());
+		}
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	
+	public void onRowSelect(SelectEvent<Producto> event) {
+		this.producto = event.getObject();
+	}
+	
 	public Producto getProducto() {
 		return producto;
 	}
@@ -138,6 +189,14 @@ public class ProductoBean {
 
 	public void setTipoProducto(TipoProducto tipoProducto) {
 		this.tipoProducto = tipoProducto;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
 	}
 	
 }
