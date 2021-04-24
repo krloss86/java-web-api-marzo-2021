@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<h:head>
+		<title>User Registration Form</title>
+		<h:outputScript library="javax.faces" name="jsf.js" target="body" />
+		<h:outputStylesheet library="webjars" name="/bootstrap/4.3.1/css/bootstrap.min-jsf.css" />
+	</h:head>
+	<h:body>
+		<div class="container">
+			<div class="row">
+				<div class="col-12 text-center">
+					<h:outputLabel 
+						value="#{productoBean.mensajeError}" 
+						rendered="#{productoBean.mensajeError != null}"
+						styleClass="alert alert-danger" />
+				</div>
+			</div>
+			<div>
+				<div class="col-6 offset-3">
+					<h1>Alta de producto</h1>
+					<h:form>
+						<div class="form-group">
+							<h:outputLabel for="codigo" class="control-label col-sm-4">Codigo</h:outputLabel>
+							<h:inputText 
+								value="#{productoBean.producto.codigo}"
+								id="codigo" 
+								class="form-control" 
+								label="Codigo"
+								required="true">
+									<f:validateLength minimum="3" maximum="10" for="codigo"/>
+							</h:inputText>
+							<h:message for="codigo" style="color:red;"></h:message>
+						</div>
+						<div class="form-group">
+							<h:outputLabel for="descripcion" class="control-label col-sm-4">
+								Título
+							</h:outputLabel>
+							<h:inputText id="descripcion"
+								value="#{productoBean.producto.titulo}"
+								class="form-control"
+								label="Descripcion"
+								required="true">
+									<f:validateRequired for="descripcion"/>
+							</h:inputText>
+							<h:message for="descripcion" style="color:red;"/>
+						</div>
+						<div class="form-group">
+							<h:outputLabel for="precio" class="control-label col-sm-4">Precio</h:outputLabel>
+							<h:inputText 
+								value="#{productoBean.producto.precio}" 
+								id="precio"
+								class="form-control"
+								label="Precio"
+								required="true">
+								 <f:convertNumber integerOnly="false" type="number" for="precio"/>
+							</h:inputText>
+							<h:message for="precio" style="color:red;"/>
+						</div>
+						<div class="form-group">
+							<h:outputLabel for="precio" class="control-label col-sm-4">Tipo Producto</h:outputLabel>
+							<h:selectOneMenu 
+								id="tipoProducto" 
+								value="#{productoBean.tipoProducto.id}"
+								required="true"
+								requiredMessage="Seleccione un tipo de Producto"
+								label="Tipo Producto"
+								class="form-control" 
+								style="width:100%">
+								<f:selectItem itemValue="" itemLabel=""/>
+								<f:selectItems var="tipoProducto"
+									value="#{productoBean.getTipoProductos()}"
+									itemLabel="#{tipoProducto.descripcion}" 
+				                	itemValue="#{tipoProducto.id}">
+				                </f:selectItems>
+							</h:selectOneMenu>
+			                <h:message for="tipoProducto" style="color:red;"/>
+						</div>
+						<h:commandButton 
+							value="Grabar" 
+							action="#{productoBean.crearNuevoProducto()}" 
+							styleClass="btn btn-success"/>
+						<h:link 
+							value="Volver"
+							styleClass="btn btn-primary ml-2" 
+							outcome="listado-productos.xhtml?faces-redirect=true"/>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</h:body>
+</html>

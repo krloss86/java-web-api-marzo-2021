@@ -69,7 +69,18 @@ public class ProductoBean {
 	
 	public String eliminarProducto(String codigo) {
 		
-		return PagesEnums.LISTADO_PRODUCTOS.getPage();
+		PagesEnums target = PagesEnums.LISTADO_PRODUCTOS;
+		
+		if(codigo != null) {
+		
+			try {
+				this.ps.eliminarProducto(codigo);
+			} catch (ServiceException e) {
+				this.mensajeError = e.getMessage();				
+			}
+		}
+		
+		return target.getPage();
 	}
 	
 	public TipoProducto[] getTipoProductos() {
@@ -88,6 +99,21 @@ public class ProductoBean {
 			.toArray(new TipoProducto[] {});
 	
 		TipoProducto[] aux2 = tipos.toArray(new TipoProducto[] {});*/
+	}
+	
+	public String crearNuevoProducto() {
+		
+		PagesEnums target = PagesEnums.LISTADO_PRODUCTOS;
+		
+		try {
+			this.producto.setTipoProducto(this.tipoProducto);		
+			this.ps.grabarProducto(this.producto);
+		}catch (Exception e) {
+			this.mensajeError = e.getMessage() + " - " +e.getCause().getMessage();
+			target = PagesEnums.NUEVO_PRODUCTO;
+		}
+		
+		return target.getPage();
 	}
 
 	public Producto getProducto() {

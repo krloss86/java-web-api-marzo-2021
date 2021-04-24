@@ -6,8 +6,9 @@ public enum PagesEnums {
 	LOGIN("login"),
 	LOGIN_ERROR("login-error"), 
 	EDITAR_PRODUCTOS("editar-producto"), 
-	LISTADO_PRODUCTOS("listado-productos");
-	
+	LISTADO_PRODUCTOS("listado-productos"), 
+	NUEVO_PRODUCTO("nuevo-producto"), 
+	LISTADO_SITES("listado-productos-restclient");
 	
 	private String page;
 	

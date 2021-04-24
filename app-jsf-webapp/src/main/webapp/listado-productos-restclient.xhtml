@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>Listado de Sites ML</title>
+		<h:outputScript library="javax.faces" name="jsf.js" target="body" />
+		<h:outputStylesheet library="webjars" name="/bootstrap/4.3.1/css/bootstrap.min-jsf.css" />
+	</h:head>
+	
+	<h:body>
+	
+		<div class="container">
+			<div class="col-12">
+				<h1>Listado de site</h1>				
+				<h:form>
+					<h:dataTable
+						id="productoTable"
+						styleClass="table"
+						value="#{listadoProductosRestClientBean.sites}"
+						var="producto">
+					
+						<h:column>
+							<f:facet name="header">Id</f:facet>
+							#{producto.id}
+						</h:column>			
+						<h:column>
+							<f:facet name="header">Name</f:facet>
+							#{producto.name}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Default Currency</f:facet>
+							#{producto.defaultCurrencyId}
+						</h:column>
+						
+					</h:dataTable>
+				</h:form>
+			</div>
+			<div class="col-12 text-center">
+				<h:form>
+					<h:commandButton
+						action="login-success.xhtml?faces-redirect=true"
+						value="Volver"
+						class="btn btn-secondary ml-2">
+					</h:commandButton>					
+				</h:form>
+			</div>
+		</div>
+	</h:body>
+	
+</html>
