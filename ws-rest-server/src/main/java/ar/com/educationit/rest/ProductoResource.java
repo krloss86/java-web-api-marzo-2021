@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -161,6 +162,7 @@ public class ProductoResource {
 		}			
 	}
 	
+	@RolesAllowed({"ADMIN"})
 	@DELETE
 	@Path("/{codigo}")
 	@Produces(MediaType.APPLICATION_JSON)
