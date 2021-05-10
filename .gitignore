@@ -89,3 +89,4 @@ local.properties
 
 # Codepro
 .codepro/
+app-react-v1/node_modules/
