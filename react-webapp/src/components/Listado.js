@@ -1,9 +1,35 @@
 import React from 'react';
+import Producto from './Producto';
+import ProductoService from '../services/productoService';
+import ProductoDataService from '../services/productoDataService';
 
 export class Listado extends React.Component {
 
     constructor() {
         super();
+
+        this.state = {
+            productos: []
+        }
+
+        this.productoDataService  = ProductoDataService.instance;
+        this.productoService = ProductoService.instance;
+    }
+
+    componentDidMount() {
+        this.productoService.findAll().subscribe(
+            data => {
+                this.productoDataService.updateProductos(data.response);
+            }
+        );
+
+        this.productoDataService.getProductos().subscribe(
+            data => this.setState(
+                {
+                    productos: data
+                }
+            )
+        );
     }
 
     render() {
@@ -14,30 +40,26 @@ export class Listado extends React.Component {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Título</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Codigo</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            {
+                                this.state.productos.map(function(producto, index){
+                                    // return <tr>
+                                    // <th scope="row">{prod.id}</th>
+                                    // <td>{prod.titulo}</td>
+                                    // <td>{prod.precio}</td>
+                                    // <td>{prod.codigo}</td>
+                                    // <td>{prod.tipoProducto.descripcion}</td>
+                                    // </tr>
+                                    return <Producto key={index} producto={producto}> </Producto>
+                                })
+                            }
                         </tbody>
                     </table>
 

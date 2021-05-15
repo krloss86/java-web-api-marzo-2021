@@ -85,4 +85,13 @@ public class ProductoServiceImpl implements ProductoService{
 			throw new ServiceException("No se ha podido obtener la lista de tipo de productos", e);
 		}
 	}
+	
+	@Override
+	public List<Producto> findProductosByDescripcion(String desripcion) throws ServiceException {
+		try {
+			return this.pr.search(desripcion);
+		} catch (GenericException e) {
+			throw new ServiceException("No se pudo obtener resultados",e);
+		}
+	}
 }

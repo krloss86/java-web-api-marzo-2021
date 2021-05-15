@@ -2,8 +2,9 @@ import  React from 'react';
 import { Login } from './Login';
 import { Mensajeria } from './Mensajeria';
 import { Form } from './Form';
-import { Navbar} from './Navbar'
-import { Listado} from './Listado'
+import { Navbar} from './Navbar';
+import { Listado} from './Listado';
+import { AppService} from '../services/appService';
 
 export class Layout extends React.Component {
 
@@ -11,38 +12,53 @@ export class Layout extends React.Component {
     constructor() {
         super();
 
+        let token = localStorage.getItem('Access-Token');
+
         //state
         this.state = {
-            contador: 0
+            logged: token != null
         }
-
-        //raro!!
-        this.incrementar = () => {
-            // this.state.contador++;
-            this.setState(
-                {
-                    contador: this.state.contador +1
-                }
-            );
-        }
-
-        this.decrementar = () => this.setState(
-            {
-                contador: this.state.contador - 1
-            }
-        );
+        
+        this.appService = AppService.instance;
     }
 
     render() {
         //props
+        // console.log(this.state.productos);
         return (
             <>
             <Mensajeria></Mensajeria>
-            <Navbar></Navbar>
-            <Login></Login>             
-            <Form></Form>
-            <Listado></Listado>
+            {
+                this.state.logged && 
+                <Navbar></Navbar>
+            }
+            {
+                !this.state.logged &&
+                <Login></Login>
+            }            
+            {
+                this.state.logged &&
+                <Form></Form>
+            }
+            {/* <button className="btn btn-primary" onClick={this.findProductos}>Cargar productos</button> */}
+            {
+                this.state.logged &&
+                <Listado productos={this.state.productos}></Listado>
+            }
             </>
+        );
+    }
+
+    //
+    componentDidMount() {
+        this.appService.getCurrent().subscribe(
+            data => {
+                this.setState(
+                    {
+                        logged: data.logged
+                    }
+                )
+            }
         );
     }
 }

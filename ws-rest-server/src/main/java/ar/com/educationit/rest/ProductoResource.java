@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -30,6 +31,7 @@ public class ProductoResource {
 	
 	private ProductoService ps = new ProductoServiceImpl();
 	
+	@PermitAll
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findAllProductos() {

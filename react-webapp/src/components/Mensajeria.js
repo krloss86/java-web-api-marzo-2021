@@ -1,29 +1,47 @@
 import React from "react";
-import MensajeriaService from "../services/appService";
+import MensajeriaService from "../services/mensajeriaService";
 
 export class Mensajeria extends React.Component {
 
     constructor() {
         super();
 
+        this.state = {
+            mensaje: null, 
+            type: null   
+        }
+
         //aca uso la instancia de MensajeriaSrevice
         this.mensajeriaService = MensajeriaService.instance;
     }
 
     render() {
+        let clase = `col-12 ${this.state.type} alert-dismissible fade show`;
         return(
-            <div className="row">
-                <div className="col-12">
-                    <div className="alert alert-primary" role="alert">
-                        A simple primary alert—check it out!
+            <>
+            {
+                this.state.mensaje !=null && 
+                <div className="row">
+                    <div className={clase} role="alert">
+                        {this.state.mensaje}
+                        <button type="button" onClick={this.mensajeriaService.clearMessage} className="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 </div>
-            </div>
+            }
+            </>
         )
     }
 
     //hooks antes de render, 
     componentDidMount() {
-        this.mensajeriaService.getCurrent();
+        //escuchar los mensajes que emita MensajeriaService
+        this.mensajeriaService.getCurrent().subscribe(
+            data =>  this.setState({
+                mensaje: null || data.mensaje,
+                type: data.type
+            })
+        )
     }
 }
