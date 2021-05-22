@@ -14,7 +14,7 @@ class Producto extends React.Component {
         this.mensajeriaService = MensajeriaService.instance;
 
         this.deleteProducto = (id) => {
-            //if(confirm('Desea eliminar')) {
+            if(window.confirm('Desea eliminar')) {
                 this.productoService.deleteProducto(id).subscribe(
                     data => {
                         this.mensajeriaService.success(`Se ha eliminado exitosamente el producto ${id}`)
@@ -24,7 +24,7 @@ class Producto extends React.Component {
                         this.mensajeriaService.error({message: `NO se ha eliminado exitosamente el producto ${id}`})
                     }
                 );
-            //}
+            }
         }
 
         //editar 

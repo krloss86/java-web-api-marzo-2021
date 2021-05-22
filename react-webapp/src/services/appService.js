@@ -39,6 +39,15 @@ export class AppService {
 
                 this.updateLogged({logged:false});
             }
+
+            this.getUserName = () => {
+                let base64 = atob(localStorage.getItem('Access-Token'));
+                let username = '';
+                if(base64) {
+                    username = base64.split(":")[0];
+                }
+                return username;
+            }
         }
         //hace singleton esta instancia AppService
         AppService.instance = this;

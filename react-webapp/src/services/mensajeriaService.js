@@ -25,6 +25,10 @@ class MensajeriaService {
                     type: 'alert alert-danger'
                 }
                 this.mensajeSubjet.next(newMessage);
+                //set timeout
+                setTimeout(() => {
+                    this.clearMessage();
+                }, 2500);
             }
 
             this.success = (message) => {
@@ -33,6 +37,10 @@ class MensajeriaService {
                     type: 'alert alert-success'
                 }
                 this.mensajeSubjet.next(newMessage);
+                //set timeout
+                setTimeout(() => {
+                    this.clearMessage();
+                }, 2500);
             }
             this.clearMessage = () => {
                 const newMessage = {

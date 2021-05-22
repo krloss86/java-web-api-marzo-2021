@@ -93,6 +93,7 @@ export class Form extends React.Component {
     }
 
     componentDidMount()  {
+        debugger;
         //cargo los tipo de productos
         this.productoService.findTiposProductos().subscribe(
             data => {
