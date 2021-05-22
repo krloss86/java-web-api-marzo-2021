@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<!-- PUEDEN USAR WEBJAR -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	</head>
+	
+	<body>
+		<div class="container">			
+			<div>
+				<div class="col-6 offset-3">
+					<h1>Alta de producto</h1>
+					<form
+						action="#"
+						th:action="@{/save}"
+						th:object="${producto}"
+						method="post"
+						>
+						<div class="form-group">
+							<label for="codigo" class="control-label col-sm-4">Código</label>
+							<input
+								type="text"
+								th:field="*{codigo}"
+								id="codigo" 
+								class="form-control" 
+								label="Codigo"
+								required="true"/>
+						</div>
+						<div class="form-group">
+							<label for="descripcion" class="control-label col-sm-4">
+								Título
+							</label>
+							<input
+								type="text"
+								id="titulo"
+								th:field="*{titulo}"
+								class="form-control"
+								label="Descripcion"
+								required="true"/>
+						</div>
+						<div class="form-group">
+							<label for="precio" class="control-label col-sm-4">Precio</label>
+							<input
+							    type="text"
+								th:field="*{precio}" 
+								id="precio"
+								class="form-control"
+								label="Precio"
+								required="true"/>
+						</div>
+						<div class="form-group">
+							<label for="precio" class="control-label col-sm-4">Tipo Producto</label>
+							<select th:field="*{tipoProducto.id}" required="required"
+								id="tipoProducto" 
+								class="form-control" 
+								style="width:100%">
+								<option
+								 	th:each="tipo : ${tiposProductos}"
+								 	th:value="${tipo.id}"
+								 	th:text="${tipo.descripcion}">
+							</select>
+						</div>
+						<button 
+							type="submit"
+							class="btn btn-success">Grabar</button>
+						<a th:href="@{/list}"
+							class="btn btn-primary ml-2">Volver</a>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

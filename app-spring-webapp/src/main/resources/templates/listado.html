@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<link rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+			integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+			crossorigin="anonymous">
+	</head>
+	
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+		    		<h1>Listado de Productos</h1>
+		    		<a th:href="@{/new}" href="new">Crear Nuevo producto</a> | <a th:href="@{'/logout'}">Logout</a>
+		    	</div>
+		    </div>
+		
+			<div class="row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Título</th>
+							<th scope="col">Código</th>
+							<th scope="col">Precio</th>
+							<th scope="col">Tipo Producto</th>
+							<th scope="col">&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="product : ${productos}">
+							<td th:text="${product.id}"></td>
+							<td th:text="${product.titulo}"></td>
+							<td th:text="${product.codigo}"></td>
+							<td th:text="${product.precio}"></td>
+							<td th:text="${product.tipoProducto.descripcion}"></td>
+							<td>
+								<a th:href="@{'/edit/' + ${product.id}}">Edit</a>
+		                		&nbsp;&nbsp;&nbsp;
+		                		<a th:href="@{'/delete/' + ${product.codigo}}">Delete</a>
+							</td>
+						</tr> 
+					</tbody>
+				</table>
+			</div>
+		</body>
+	</div>
+</html>
