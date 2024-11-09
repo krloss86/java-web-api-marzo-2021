@@ -8,10 +8,15 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>ws-soap-server</artifactId>
-
+	<properties>
+		<!-- versión de java que vamos a usar -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<!-- jax-ws api -->
-		<!-- https://mvnrepository.com/artifact/jakarta.xml.ws/jakarta.xml.ws-api -->
+		<!--
+		https://mvnrepository.com/artifact/jakarta.xml.ws/jakarta.xml.ws-api -->
 		<dependency>
 			<groupId>jakarta.xml.ws</groupId>
 			<artifactId>jakarta.xml.ws-api</artifactId>
@@ -24,13 +29,33 @@
 			<artifactId>jaxws-rt</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
+		<!--
+		https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
 		<dependency>
 			<groupId>javax.annotation</groupId>
 			<artifactId>javax.annotation-api</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-		
+<!-- API de JAXB -->
+    <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>3.0.1</version>
+    </dependency>
+
+    <!-- Implementación de JAXB Runtime -->
+    <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>3.0.1</version>
+    </dependency>
+
+    <!-- Dependencia de activación de Java (necesaria para JAXB) -->
+    <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-core</artifactId>
+        <version>3.0.1</version>
+    </dependency>
 		<!-- propias -->
 		<dependency>
 			<groupId>ar.com.educationit</groupId>
@@ -38,4 +63,80 @@
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+
+	<!--debido a incompatibilidad con java8, habilitamos  -->
+	<build>
+		<plugins>
+			<!-- Plugin para crear un JAR único con todas las dependencias -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<!-- Asegura que el manifiesto incluya la clase principal -->
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>
+										ar.com.educationit.wssoap.main.ProductoWSSoapMain</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Compiler Plugin to set the Java version -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+					<release>17</release>
+					<compilerArgs>
+						<arg>--add-opens</arg>
+						<arg>java.base/jdk.internal.misc=ALL-UNNAMED</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>			
+			<!-- Plugin para crear el JAR con atributo Main-Class en el manifiesto -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>ar.com.educationit.wssoap.main.ProductoWSSoapMain</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<!-- Plugin to run the application with JVM options -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<mainClass>ar.com.educationit.wssoap.main.ProductoWSSoapMain</mainClass>
+					<arguments>
+						<argument>--add-opens</argument>
+						<argument>java.base/jdk.internal.misc=ALL-UNNAMED</argument>					
+			            <argument>--add-opens</argument>
+			            <argument>java.base/java.lang=ALL-UNNAMED</argument>
+			            <argument>--add-opens</argument>
+			            <argument>java.base/java.lang.reflect=ALL-UNNAMED</argument>
+			        </arguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
